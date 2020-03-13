@@ -33,13 +33,15 @@ app.get("/", function (req, res) {
 
 app.get('/api/timestamp/:date_string', function getTimeStampByDateString(req, res, next) {
   let reDateFormat = /\-/g;
-  let { date_string } = req.params;
+  let { date_string: dateValue } = req.params;
 
-  if (reDateFormat.test(date_string)) {
-    date_string = date_string.replace(reDateFormat, '/');
+  if (reDateFormat.test(dateValue)) {
+    dateValue = dateValue.replace(reDateFormat, '/');
+  } else {
+    dateValue = parseInt(dateValue);
   }
 
-  const date = new Date(date_string);
+  const date = new Date(dateValue);
 
   if (isInvalidDate(date)) {
     return next(
